@@ -4,32 +4,99 @@
  f and s represent, and implement foldln; use it to re-implement sum and fact to check your results.
 
  Note: the following solution could be improved memory-efficiency wise using tail recursion.
+
+ **IMPORTANT**:
+ foldln = foldl on n, n being a sequence of natural numbers
 */
+with builtins;
 let
-    # without tail recursion
-    foldln = f: s: n: 
-        if s == n
-            then n
+    /*
+        UPDATE on "wrong order of evaluation":
+
+        The name of function `foldln`, the `l` is for *left*,
+        meaning that the evaluation order of fold should start
+        at the first elements (e.g.: 0 1).
+
+        My previous implementation was a `foldrn`, starting
+        evaluating from the rightest elements (the last ones) first.
+
+        Note: although the following implementation is working,
+        the order of evaluation is not correct.
+
+        Let f = n: m: add n m
+
+        Wrong evaluation order: (f 1 (f 2 (f 3 4)))
+
+        Correct evaluation order: (f (f (f (f 0 1) 2) 3) 4) 
+
+        Expanding on the correct evaluation order:
+
+        foldln f 0 4 ==> (f (f (f (f 0 1) 2) 3) 4)
+
+        stack:
+        foldln f 0 4
+        (f (foldln 0 3) 4)
+        (f (f (foldln 0 2) 3) 4)
+        (f (f (f (foldln 0 1) 2) 3) 4)
+        (f (f (f (f 0 1) 2) 3) 4)
+
+        sum_square:
+        (f (f (f (f 0 1) 2) 3) 4)
+    */
+
+    foldlnNormal = f: s: n:
+        if n - s <= 1
+            then f s n
         else
-            f s (foldln f (s + 1) n)
+            f (foldln f s (n - 1)) n
     ;
 
     # TODO: with tail recursion
 
     /*
-        sumUntil 4
-        (add 1 (add 2 (add 3 4)))
+        foldln add 1 5
+        go 5 1
+        go 4 6 -> go (5 - 1) (add 5 1)
+        go 3 10 -> go (4 - 1) (add 4 6)
+        go 2 13 -> go (3 - 1) (add 3 10)
+        go 1 15 -> go (2 - 1) (add 2 13)
+        15
+        ==
+        (add 2(add 3 (add 4 (add 5 1)))
+
+        foldln add 1 5
+        go 1 5
+        go (1 + 1) (add 1 5) == go 2 6
+        go (2 + 1) (add 2 6) == go 3 8
+        go (3 + 1) (add 3 8) == go 4 11
+        go (4 + 1) (add 4 11) == go 5 15
+        15
+        ==
+        (add 4 (add 3 (add 2 (add 1 5))))
     */
-    sumUntil = n: foldln (n: m: n + m) 1 n;
+
+    foldln = f: s: n: let go = aux: acc:
+        if aux == n
+            then acc
+        else
+            go (aux + 1) (f aux acc)
+        ;in go s n
+    ;
+
+    /*
+        sumUntil 4
+        (add (add (add (add 0 1) 2) 3) 4)
+    */
+    sumUntil = n: foldln (n: m: n + m) 0 n;
 
     /*
         factorOf 4
-        (mult 1 (mult 2 (mult 3 4)))
+        (mult (mult (mult 1 2) 3) 4)
     */
     factOf = n: foldln (n: m: n * m) 1 n;
 in
 {
-    inherit foldln;
+    inherit foldln; # make it exportable. Is inherit the best way?
 
     # all the following must yield true
     t1 = factOf 1 == 1;

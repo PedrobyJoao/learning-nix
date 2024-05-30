@@ -12,14 +12,6 @@ let
             (n * n) + sumsquare (n - 1)
     ;
 
-    # using foldl (omg, so easier and elegant =P)
-    squareIfSucc = n: m: 
-        if m - n == 1
-            then (n * n) + (m * m)
-        else
-            (n * n) + m
-    ;
-
     /*
         Currying/Partial-application:
 
@@ -29,9 +21,12 @@ let
         the caller. `sumsquareF` is actually returning a function
         which expects one more arg
     */
-    sumsquareF = foldln squareIfSucc 1;
-
+    sumsquareF = foldln (n: m: n + (m * m)) 0;
     /*
+        *** FIXED ***
+        I changed my foldln implementation
+        (had wrong evaluation order)
+        *** FIXED ***
         *Important*: bug
         
         another solution for the same exercies doesn't work:
@@ -56,6 +51,22 @@ in
 
 /*
 RANDOM NOTES:
+
+### Notes for my second implementation
+
+stack:
+foldln f 0 4
+(f (foldln 0 3) 4)
+(f (f (foldln 0 2) 3) 4)
+(f (f (f (foldln 0 1) 2) 3) 4)
+(f (f (f (f 0 1) 2) 3) 4)
+
+sum_square:
+(ss (ss (ss (ss 0 1) 2) 3) 4)
+(ss (ss (ss 1 2) 3) 4)
+(ss (ss 5 3) 4)
+
+### Notes for my first implementation:
 
 Writing the stack trace manually makes debugging recursive functions easier I guess
 (why not just use builtin trace? me dumb)

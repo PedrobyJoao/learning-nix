@@ -1,9 +1,12 @@
 Most of the exercises are of course very simple as I'm just learning the language and getting acquainted
-with the functional paradigm. The `foldln.nix` was the hardest exercise until now. 
+with the functional paradigm. 
+
+`foldln.nix` was the hardest exercise until now. 
 
 #### TODOs
 
-[] implement `foldln` with tail recursion
+- [ x ] `foldn` is not totally correct even though tests pass. The order of evaluation is wrong.
+- [ x ] implement `foldln` with tail recursion
 
 ### Tail recursion
 
@@ -33,7 +36,5 @@ And the same applies for all the intermediary `n`s before the last step, they mu
 
 more detailed explanation: https://www.youtube.com/watch?v=_JtPhF8MshA
 
-
-
-Others:
+### Others
 - I didn't know `if else` existed in Nix so some files may have nested if/else files =P
