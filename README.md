@@ -1,4 +1,5 @@
 > "Functional code is so elegant.
+>
 >  Functional programming is so relaxing."
 >
 >   - PedroByJoao after some hours of Nix
