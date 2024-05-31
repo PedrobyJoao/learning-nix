@@ -1,10 +1,17 @@
-Most of the exercises are of course very simple as I'm just learning the language and getting acquainted
-with the functional paradigm. 
+> "Functional code is so elegant.
+>  Functional programming is so relaxing."
+>
+>   - PedroByJoao after some hours of Nix
 
-`foldln.nix` was the hardest exercise until now. 
+Just getting a bit acquainted with the functional paradigm and preparing myself to migrate to NixOS.
+
+My study notes are mostly under the files itself but mainly `foldln.nix` and `foldrn.nix`.
+
 
 #### TODOs
 
+- [  ] explain tail recursion with example on README
+- [  ] add explanation within `foldln.nix` or `foldrn.nix` about tail recursion order of evaluation
 - [ x ] `foldn` is not totally correct even though tests pass. The order of evaluation is wrong.
 - [ x ] implement `foldln` with tail recursion
 

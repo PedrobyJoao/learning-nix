@@ -10,20 +10,25 @@ let
     /*
         Reminder: foldrn, r stands for starting the evaluation from the righest
 
-        Expected evaluation of `foldrn add 1 4`:
-        (add 1 (add 2 (add 3 4)))
-
-        (add s (foldrn (s + 1) (n - 1)))
-
-
-
-
+        foldln add 1 5
+        go 5 1
+        go 4 6 -> go (5 - 1) (add 5 1)
+        go 3 10 -> go (4 - 1) (add 4 6)
+        go 2 13 -> go (3 - 1) (add 3 10)
+        go 1 15 -> go (2 - 1) (add 2 13)
+        15
+        ==
+        (add 2(add 3 (add 4 (add 5 1)))
     */
-    foldrn = f: s: n:
-        if s == n
-            then n
+
+    # with tail recursion
+    foldrn = f: s: n: let go = aux: acc:
+        if aux == s
+            then acc
         else
-            f s (foldrn f (s + 1) n)
+            go (aux - 1) (f aux acc)
+        
+        ;in go n s
     ;
 
     /*

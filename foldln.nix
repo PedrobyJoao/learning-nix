@@ -11,8 +11,6 @@
 with builtins;
 let
     /*
-        UPDATE on "wrong order of evaluation":
-
         The name of function `foldln`, the `l` is for *left*,
         meaning that the evaluation order of fold should start
         at the first elements (e.g.: 0 1).
@@ -44,26 +42,14 @@ let
         (f (f (f (f 0 1) 2) 3) 4)
     */
 
-    foldlnNormal = f: s: n:
+    foldlnNoTR = f: s: n:
         if n - s <= 1
             then f s n
         else
             f (foldln f s (n - 1)) n
     ;
 
-    # TODO: with tail recursion
-
     /*
-        foldln add 1 5
-        go 5 1
-        go 4 6 -> go (5 - 1) (add 5 1)
-        go 3 10 -> go (4 - 1) (add 4 6)
-        go 2 13 -> go (3 - 1) (add 3 10)
-        go 1 15 -> go (2 - 1) (add 2 13)
-        15
-        ==
-        (add 2(add 3 (add 4 (add 5 1)))
-
         foldln add 1 5
         go 1 5
         go (1 + 1) (add 1 5) == go 2 6
@@ -74,7 +60,7 @@ let
         ==
         (add 4 (add 3 (add 2 (add 1 5))))
     */
-
+    # with tail recursion
     foldln = f: s: n: let go = aux: acc:
         if aux == n
             then acc
