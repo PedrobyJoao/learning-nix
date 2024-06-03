@@ -65,7 +65,7 @@ let
         if aux == n
             then acc
         else
-            go (aux + 1) (f aux acc)
+            trace "aux = ${toString aux} acc = ${toString acc}" go (aux + 1) (f aux acc)
         ;in go s n
     ;
 
@@ -83,6 +83,7 @@ let
 in
 {
     inherit foldln; # make it exportable. Is inherit the best way?
+    inherit factOf; # make it exportable. Is inherit the best way?
 
     # all the following must yield true
     t1 = factOf 1 == 1;

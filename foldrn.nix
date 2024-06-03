@@ -6,6 +6,7 @@
 
     I may try to implement tail recursion
 */
+with builtins;
 let
     /*
         Reminder: foldrn, r stands for starting the evaluation from the righest
@@ -26,7 +27,7 @@ let
         if aux == s
             then acc
         else
-            go (aux - 1) (f aux acc)
+            trace "aux = ${toString aux} acc = ${toString acc}" go (aux - 1) (f aux acc)
         
         ;in go n s
     ;
@@ -44,6 +45,8 @@ let
     factOf = n: foldrn (n: m: n * m) 1 n;
 in
 {
+    inherit foldrn;
+
     # all the following must yield true
     t1 = factOf 1 == 1;
     t2 = factOf 2 == 2;

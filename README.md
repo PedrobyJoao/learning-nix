@@ -44,5 +44,11 @@ And the same applies for all the intermediary `n`s before the last step, they mu
 
 more detailed explanation: https://www.youtube.com/watch?v=_JtPhF8MshA
 
+### Sources
+
+I'm following the exercises and guide from: https://tales.mbivert.com/on-nix-language-recursive-functions/
+
+But for an introduction, I started with https://nixcloud.io/tour which was really cool.
+
 ### Others
 - I didn't know `if else` existed in Nix so some files may have nested if/else files =P
