@@ -9,9 +9,28 @@
 with builtins;
 let
     /*
+        ** foldrn with tail recursion **
         Reminder: foldrn, r stands for starting the evaluation from the righest
+        
+        f: stands for the func to be computed on acc and i
+        s: stands for the INITIAL VALUE of the ACCUMULATOR
+        i: from where to start the iterator
 
-        foldln add 1 5
+        ***** IMPORTANT *****
+        I thought `s` referred to where to start the foldrn process,
+        and actually my previous implementation indeed was handling that way.
+
+        But it wasn't the correct way, because:
+
+        1. foldrn should go iterate through all natural numbers
+        until i > n. It should NOT start in the middle
+
+        2. `s` refers to the initial value of the acc, not anything else
+        ***** IMPORTANT *****
+
+        - Stack example:
+
+        foldrn add 1 5
         go 5 1
         go 4 6 -> go (5 - 1) (add 5 1)
         go 3 10 -> go (4 - 1) (add 4 6)
@@ -21,15 +40,15 @@ let
         ==
         (add 2(add 3 (add 4 (add 5 1)))
     */
-
-    # with tail recursion
-    foldrn = f: s: n: let go = aux: acc:
-        if aux == s
-            then acc
+    foldrn = f: s: n: let go = acc: i:
+        if i == 1
+            then trace (
+                "Final result for s=${toString s} and n=${toString n}: ${toString acc}"
+                ) acc
         else
-            trace "aux = ${toString aux} acc = ${toString acc}" go (aux - 1) (f aux acc)
+            trace "i = ${toString i} acc = ${toString acc}" go (f acc i) (i - 1) 
         
-        ;in go n s
+        ;in go 1 n
     ;
 
     /*

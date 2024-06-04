@@ -50,6 +50,26 @@ let
     ;
 
     /*
+        ** foldln with tail recursion **
+        
+        f: stands for the func to be computed on acc and i
+        s: stands for the INITIAL VALUE of the ACCUMULATOR
+        i: from where to start the iterator
+
+        ***** IMPORTANT *****
+        I thought `s` referred to where to start the foldln process,
+        and actually my previous implementation indeed was handling that way.
+
+        But it wasn't the correct way, because:
+
+        1. foldln should go iterate through all natural numbers
+        until i > n. It should NOT start in the middle
+
+        2. `s` refers to the initial value of the acc, not anything else
+        ***** IMPORTANT *****
+
+        - Stack example:
+
         foldln add 1 5
         go 1 5
         go (1 + 1) (add 1 5) == go 2 6
@@ -60,13 +80,12 @@ let
         ==
         (add 4 (add 3 (add 2 (add 1 5))))
     */
-    # with tail recursion
-    foldln = f: s: n: let go = aux: acc:
-        if aux == n
+    foldln = f: s: n: let go = acc: i:
+        if i > n
             then acc
         else
-            trace "aux = ${toString aux} acc = ${toString acc}" go (aux + 1) (f aux acc)
-        ;in go s n
+            trace "i = ${toString i} acc = ${toString acc}" go (f acc i) (i + 1)
+        ;in go s 1
     ;
 
     /*
