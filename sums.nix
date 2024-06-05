@@ -126,6 +126,7 @@ let
     sumodd = foldlnp isOdd add 0;
 in
 {
+    inherit foldln;
     # s1 = sum 1 == 1;
     # s2 = sum 2 == 3;
     # s3 = sum 3 == 6;
